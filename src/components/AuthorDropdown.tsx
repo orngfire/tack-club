@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { AUTHORS, getAuthorColor } from '../constants/authors';
+import { getInitials, getAvatarColor, getAvatarImage } from '../utils/avatarHelpers';
 
 interface AuthorDropdownProps {
   value: string;
@@ -32,22 +33,34 @@ const AuthorDropdown: React.FC<AuthorDropdownProps> = ({
         type="button"
         onClick={() => setIsOpen(!isOpen)}
         className={`
-          w-full px-4 py-2.5 bg-white/10 border border-white/20 rounded-xl
-          text-left text-white focus:outline-none focus:border-white/40
-          focus:bg-white/15 transition-all duration-200
-          ${value ? '' : 'text-white/50'}
-          hover:bg-white/15
+          w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg
+          text-left text-gray-700 focus:outline-none focus:border-primary focus:bg-white
+          transition-all duration-200 text-sm
+          ${value ? '' : 'text-gray-400'}
+          hover:bg-white hover:border-gray-300
         `}
       >
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             {value && (
-              <div className={`w-2 h-2 rounded-full bg-gradient-to-r ${getAuthorColor(value)}`} />
+              <div className={`w-6 h-6 rounded-full ${getAvatarColor(value)} flex items-center justify-center shadow-sm`}>
+                {getAvatarImage(value) ? (
+                  <img
+                    src={getAvatarImage(value)!}
+                    alt={value}
+                    className="w-full h-full rounded-full object-cover"
+                  />
+                ) : (
+                  <span className="text-white font-semibold text-[10px]">
+                    {getInitials(value)}
+                  </span>
+                )}
+              </div>
             )}
             <span>{value || placeholder}</span>
           </div>
           <svg
-            className={`w-4 h-4 text-white/60 transition-transform duration-200 ${
+            className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${
               isOpen ? 'rotate-180' : ''
             }`}
             fill="none"
@@ -61,7 +74,7 @@ const AuthorDropdown: React.FC<AuthorDropdownProps> = ({
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute z-50 w-full mt-2 glass-card rounded-xl border border-white/20 overflow-hidden animate-fade-in">
+        <div className="absolute z-50 w-full mt-2 bg-white rounded-lg border border-gray-200 shadow-hover overflow-hidden animate-fade-in">
           <div className="py-1 max-h-60 overflow-y-auto">
             {AUTHORS.map((author) => (
               <button
@@ -72,19 +85,28 @@ const AuthorDropdown: React.FC<AuthorDropdownProps> = ({
                   setIsOpen(false);
                 }}
                 className={`
-                  w-full px-4 py-2.5 text-left transition-all duration-150
-                  hover:bg-white/20 flex items-center gap-3
-                  ${value === author ? 'bg-white/15 text-white' : 'text-white/80'}
+                  w-full px-3 py-2 text-left transition-all duration-150 text-sm
+                  hover:bg-gray-50 flex items-center gap-2
+                  ${value === author ? 'bg-primary-light text-primary' : 'text-gray-700'}
                 `}
               >
-                <div className={`w-8 h-8 rounded-full bg-gradient-to-r ${getAuthorColor(author)}
-                  flex items-center justify-center text-white text-sm font-medium shadow-sm`}>
-                  {author[0]}
+                <div className={`w-6 h-6 rounded-full ${getAvatarColor(author)} flex items-center justify-center shadow-sm flex-shrink-0`}>
+                  {getAvatarImage(author) ? (
+                    <img
+                      src={getAvatarImage(author)!}
+                      alt={author}
+                      className="w-full h-full rounded-full object-cover"
+                    />
+                  ) : (
+                    <span className="text-white font-semibold text-[10px]">
+                      {getInitials(author)}
+                    </span>
+                  )}
                 </div>
                 <span className="font-medium">{author}</span>
                 {value === author && (
                   <svg
-                    className="w-4 h-4 ml-auto text-white"
+                    className="w-4 h-4 ml-auto text-primary"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"

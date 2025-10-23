@@ -17,4 +17,21 @@ export interface Announcement {
   author: string;
 }
 
-export type ViewType = 'calendar' | 'all' | 'announcements';
+export interface Comment {
+  id: string;
+  author: string;
+  content: string;
+  timestamp: number;
+}
+
+export interface HappinessPost {
+  id: string;
+  author: string;
+  content: string;
+  imageUrl?: string;  // Optional image URL
+  timestamp: number;  // Unix timestamp for KST display
+  likes: string[];    // Array of user IDs who liked
+  comments: Comment[]; // Array of comments
+}
+
+export type ViewType = 'calendar' | 'all' | 'announcements' | 'stats';

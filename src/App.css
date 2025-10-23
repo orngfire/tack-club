@@ -46,3 +46,77 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Safe area support for iPhone X and newer */
+.safe-bottom {
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-bottom: constant(safe-area-inset-bottom); /* iOS 11.0-11.2 */
+}
+
+/* Custom dashed border with moderate spacing */
+.dashed-border-custom {
+  background-image: repeating-linear-gradient(
+    0deg,
+    #d1d5db,
+    #d1d5db 5px,
+    transparent 5px,
+    transparent 9px,
+    #d1d5db 9px
+  ), repeating-linear-gradient(
+    90deg,
+    #d1d5db,
+    #d1d5db 5px,
+    transparent 5px,
+    transparent 9px,
+    #d1d5db 9px
+  ), repeating-linear-gradient(
+    180deg,
+    #d1d5db,
+    #d1d5db 5px,
+    transparent 5px,
+    transparent 9px,
+    #d1d5db 9px
+  ), repeating-linear-gradient(
+    270deg,
+    #d1d5db,
+    #d1d5db 5px,
+    transparent 5px,
+    transparent 9px,
+    #d1d5db 9px
+  );
+  background-position: top, right, bottom, left;
+  background-size: calc(100% - 2px) 1.5px, 1.5px calc(100% - 2px), calc(100% - 2px) 1.5px, 1.5px calc(100% - 2px);
+  background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+}
+
+.dashed-border-custom:hover {
+  background-image: repeating-linear-gradient(
+    0deg,
+    #E91E63,
+    #E91E63 5px,
+    transparent 5px,
+    transparent 9px,
+    #E91E63 9px
+  ), repeating-linear-gradient(
+    90deg,
+    #E91E63,
+    #E91E63 5px,
+    transparent 5px,
+    transparent 9px,
+    #E91E63 9px
+  ), repeating-linear-gradient(
+    180deg,
+    #E91E63,
+    #E91E63 5px,
+    transparent 5px,
+    transparent 9px,
+    #E91E63 9px
+  ), repeating-linear-gradient(
+    270deg,
+    #E91E63,
+    #E91E63 5px,
+    transparent 5px,
+    transparent 9px,
+    #E91E63 9px
+  );
+}

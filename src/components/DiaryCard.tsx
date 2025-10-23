@@ -2,35 +2,50 @@ import React from 'react';
 import { DiaryEntry } from '../types';
 import { formatTime } from '../utils/dateHelpers';
 import { getAuthorColor } from '../constants/authors';
+import { getInitials, getAvatarColor, getAvatarImage } from '../utils/avatarHelpers';
 
 interface DiaryCardProps {
   entry: DiaryEntry;
   currentUserId: string;
   onReaction: (entryId: string) => void;
   showDate?: boolean;
+  showComments?: boolean;
 }
 
 const DiaryCard: React.FC<DiaryCardProps> = ({
   entry,
   currentUserId,
   onReaction,
-  showDate = false
+  showDate = false,
+  showComments = true
 }) => {
-  const hasReacted = entry.reactions.악.includes(currentUserId);
-  const reactionCount = entry.reactions.악.length;
+  // 리액션 데이터 안전하게 처리
+  const reactions = entry.reactions?.악 || [];
+  const hasReacted = reactions.includes(currentUserId);
+  const reactionCount = reactions.length;
 
   return (
-    <div className="glass-card glass-card-hover rounded-2xl p-4 mb-3 animate-fade-in">
+    <div className="bg-white rounded-xl border border-gray-200 p-3 sm:p-4 mb-2 sm:mb-3 shadow-soft hover:shadow-hover transition-all duration-200">
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1.5">
           {/* Avatar */}
-          <div className={`w-8 h-8 rounded-full bg-gradient-to-br ${getAuthorColor(entry.author)} flex items-center justify-center text-white text-sm font-medium shadow-md`}>
-            {entry.author[0].toUpperCase()}
+          <div className={`w-10 h-10 rounded-full ${getAvatarColor(entry.author)} flex items-center justify-center shadow-sm`}>
+            {getAvatarImage(entry.author) ? (
+              <img
+                src={getAvatarImage(entry.author)!}
+                alt={entry.author}
+                className="w-full h-full rounded-full object-cover"
+              />
+            ) : (
+              <span className="text-white font-semibold text-sm">
+                {getInitials(entry.author)}
+              </span>
+            )}
           </div>
           <div>
-            <p className="text-white font-medium text-sm">{entry.author}</p>
-            <p className="text-white/50 text-xs">
+            <p className="text-gray-900 font-medium text-sm">{entry.author}</p>
+            <p className="text-gray-500 text-xs">
               {formatTime(entry.timestamp)}
               {showDate && ` • ${new Date(entry.date).toLocaleDateString('ko-KR')}`}
             </p>
@@ -39,52 +54,46 @@ const DiaryCard: React.FC<DiaryCardProps> = ({
       </div>
 
       {/* Content */}
-      <div className="text-white/90 text-sm leading-relaxed mb-3 whitespace-pre-wrap">
+      <div className="text-gray-700 text-sm leading-relaxed mb-3 whitespace-pre-wrap">
         {entry.content}
       </div>
 
-      {/* Reaction Button - Slack Style */}
+      {/* Reaction Button - Clean Style */}
       <div className="flex items-center gap-2">
         <button
           onClick={() => onReaction(entry.id)}
           className={`
-            inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-medium
+            inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-medium
             transition-all duration-200 transform active:scale-95
             ${hasReacted
-              ? 'bg-purple-500/30 text-white border border-purple-400/50 hover:bg-purple-500/40'
+              ? 'bg-primary-light text-primary border border-primary/20'
               : reactionCount > 0
-                ? 'bg-white/10 text-white/80 border border-white/20 hover:bg-white/20'
-                : 'bg-transparent text-white/60 border border-white/20 hover:bg-white/10 hover:text-white/80'
+                ? 'bg-gray-50 text-gray-700 border border-gray-200 hover:bg-gray-100'
+                : 'bg-white text-gray-500 border border-gray-200 hover:bg-gray-50'
             }
           `}
         >
-          <span className={`transition-transform duration-200 ${hasReacted ? 'scale-110' : ''}`}>
-            😱
+          <span className={`text-base ${hasReacted ? 'animate-scale-in' : ''}`}>
+            📍
           </span>
           <span>악</span>
           {reactionCount > 0 && (
-            <span className="ml-0.5 font-semibold">
+            <span className="font-semibold text-xs">
               {reactionCount}
             </span>
           )}
         </button>
 
-        {/* Add more reaction button */}
-        <button className="p-1 rounded-full hover:bg-white/10 transition-colors duration-200 group">
-          <svg
-            className="w-4 h-4 text-white/40 group-hover:text-white/60"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
-            <path
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-            />
-          </svg>
-        </button>
+        {/* Comment button - Only show when showComments is true */}
+        {showComments && (
+          <button className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs text-gray-500 hover:bg-gray-50 transition-colors">
+            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+            </svg>
+            <span>댓글</span>
+          </button>
+        )}
       </div>
     </div>
   );

@@ -1,0 +1,32 @@
+name: Evening Reminder (17:00 KST)
+
+on:
+  schedule:
+    - cron: '0 8 * * *'   # 17:00 KST = 08:00 UTC
+  workflow_dispatch:      # 수동 실행 가능
+
+jobs:
+  send-evening-reminder:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd .github/scripts
+          npm init -y
+          npm install axios
+
+      - name: Send evening notifications
+        env:
+          FIREBASE_URL: ${{ secrets.FIREBASE_URL }}
+          ONESIGNAL_APP_ID: ${{ secrets.ONESIGNAL_APP_ID }}
+          ONESIGNAL_REST_API_KEY: ${{ secrets.ONESIGNAL_REST_API_KEY }}
+        run: node .github/scripts/check-and-notify.js evening

@@ -9,13 +9,15 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
   return (
     <div className="flex-1 flex flex-col h-screen max-w-4xl mx-auto px-6">
       {/* Header */}
-      <div className="glass-card rounded-2xl p-6 mb-6 text-center">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          공지사항
-        </h1>
-        <p className="text-white/70">
-          Tack Club의 중요한 소식과 업데이트를 확인하세요
-        </p>
+      <div className="bg-white rounded-xl shadow-soft p-6 mb-6">
+        <div>
+          <h1 className="text-2xl font-bold text-gray-900 mb-1">
+            행복 아카이브
+          </h1>
+          <p className="text-gray-500 text-lg">
+            행복이란 무엇일까?
+          </p>
+        </div>
       </div>
 
       {/* Announcements List */}
@@ -25,13 +27,13 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
             {announcements.map((announcement) => (
               <div
                 key={announcement.id}
-                className="glass-card glass-card-hover rounded-2xl p-6 animate-fade-in"
+                className="bg-white rounded-xl border border-gray-200 shadow-soft hover:shadow-hover p-6 transition-all animate-slide-up"
               >
                 {/* Announcement Header */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     {/* Icon */}
-                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center shadow-lg">
+                    <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-yellow-400 to-orange-400 flex items-center justify-center shadow-sm">
                       <svg
                         className="w-6 h-6 text-white"
                         fill="none"
@@ -47,15 +49,15 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
                       </svg>
                     </div>
                     <div>
-                      <h2 className="text-xl font-semibold text-white">
+                      <h2 className="text-xl font-semibold text-gray-900">
                         {announcement.title}
                       </h2>
                       <div className="flex items-center gap-2 mt-1">
-                        <span className="text-white/60 text-sm">
+                        <span className="text-gray-500 text-sm">
                           {announcement.author}
                         </span>
-                        <span className="text-white/40 text-xs">•</span>
-                        <span className="text-white/60 text-sm">
+                        <span className="text-gray-400 text-xs">•</span>
+                        <span className="text-gray-500 text-sm">
                           {new Date(announcement.date).toLocaleDateString('ko-KR')}
                         </span>
                       </div>
@@ -64,20 +66,20 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
 
                   {/* Badge for new announcements */}
                   {isNewAnnouncement(announcement.date) && (
-                    <span className="px-2 py-1 bg-gradient-to-r from-purple-500 to-pink-500 text-white text-xs font-medium rounded-full">
+                    <span className="px-2 py-1 bg-primary text-white text-xs font-medium rounded-full">
                       NEW
                     </span>
                   )}
                 </div>
 
                 {/* Announcement Content */}
-                <div className="text-white/80 leading-relaxed whitespace-pre-wrap">
+                <div className="text-gray-700 leading-relaxed whitespace-pre-wrap">
                   {announcement.content}
                 </div>
 
                 {/* Footer Actions */}
-                <div className="mt-4 pt-4 border-t border-white/10 flex items-center gap-4">
-                  <button className="flex items-center gap-2 text-white/60 hover:text-white transition-colors">
+                <div className="mt-4 pt-4 border-t border-gray-100 flex items-center gap-4">
+                  <button className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors">
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -93,7 +95,7 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
                     </svg>
                     <span className="text-sm">좋아요</span>
                   </button>
-                  <button className="flex items-center gap-2 text-white/60 hover:text-white transition-colors">
+                  <button className="flex items-center gap-2 text-gray-500 hover:text-primary transition-colors">
                     <svg
                       className="w-4 h-4"
                       fill="none"
@@ -116,7 +118,7 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
         ) : (
           <div className="text-center py-16">
             <svg
-              className="w-16 h-16 mx-auto text-white/30 mb-4"
+              className="w-16 h-16 mx-auto text-gray-300 mb-4"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -128,8 +130,8 @@ const AnnouncementsView: React.FC<AnnouncementsViewProps> = ({ announcements }) 
                 d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"
               />
             </svg>
-            <p className="text-white/50 text-lg mb-2">아직 공지사항이 없어요</p>
-            <p className="text-white/40 text-sm">새로운 소식이 있으면 여기에 표시됩니다</p>
+            <p className="text-gray-500 text-lg mb-2">아직 행복의 기록이 없어요</p>
+            <p className="text-gray-400 text-sm">행복한 순간들이 여기에 차곡차곡 쌓일 거예요</p>
           </div>
         )}
       </div>

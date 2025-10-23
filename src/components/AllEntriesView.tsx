@@ -1,24 +1,19 @@
 import React, { useState } from 'react';
 import { DiaryEntry } from '../types';
 import DiaryCard from './DiaryCard';
-import NewEntryForm from './NewEntryForm';
 import AuthorFilter from './AuthorFilter';
-import { formatDate } from '../utils/dateHelpers';
 
 interface AllEntriesViewProps {
   entries: DiaryEntry[];
   currentUserId: string;
-  onAddEntry: (entry: Omit<DiaryEntry, 'id'>) => void;
   onReaction: (entryId: string) => void;
 }
 
 const AllEntriesView: React.FC<AllEntriesViewProps> = ({
   entries,
   currentUserId,
-  onAddEntry,
   onReaction
 }) => {
-  const [showNewEntryForm, setShowNewEntryForm] = useState(false);
   const [selectedAuthor, setSelectedAuthor] = useState<string | null>(null);
 
   // Filter entries by selected author
@@ -29,27 +24,18 @@ const AllEntriesView: React.FC<AllEntriesViewProps> = ({
   // Sort entries by timestamp (newest first)
   const sortedEntries = [...filteredEntries].sort((a, b) => b.timestamp - a.timestamp);
 
-  const handleAddEntry = (author: string, content: string) => {
-    onAddEntry({
-      author,
-      content,
-      date: formatDate(new Date()),
-      timestamp: Date.now(),
-      reactions: { 악: [] }
-    });
-    setShowNewEntryForm(false);
-  };
-
   return (
-    <div className="flex-1 flex flex-col h-screen max-w-3xl mx-auto px-6">
+    <div className="flex-1 flex flex-col h-screen max-w-full md:max-w-4xl mx-auto px-2 sm:px-4 md:px-6">
       {/* Header */}
-      <div className="glass-card rounded-2xl p-6 mb-6 text-center">
-        <h1 className="text-3xl font-bold text-white mb-2">
-          모든 압정들
-        </h1>
-        <p className="text-white/70">
-          지금까지 기록된 모든 순간들을 한눈에 볼 수 있어요
-        </p>
+      <div className="bg-white rounded-xl shadow-soft p-2.5 sm:p-4 md:p-6 mb-2 sm:mb-4 md:mb-6">
+        <div>
+          <h1 className="text-lg sm:text-xl md:text-2xl font-extrabold text-gray-900 mb-1">
+            모든 압정들
+          </h1>
+          <p className="text-gray-500 text-sm sm:text-base md:text-lg font-medium">
+            압정을 뿌려놓자. 행복해질 것이다.
+          </p>
+        </div>
       </div>
 
       {/* Author Filter */}
@@ -58,46 +44,10 @@ const AllEntriesView: React.FC<AllEntriesViewProps> = ({
         onAuthorChange={setSelectedAuthor}
       />
 
-      {/* Add New Entry Button */}
-      {!showNewEntryForm && (
-        <button
-          onClick={() => setShowNewEntryForm(true)}
-          className="w-full mb-6 p-4 glass-card rounded-2xl hover:bg-white/15 transition-all group"
-        >
-          <div className="flex items-center justify-center gap-2 text-white/70 group-hover:text-white">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={2}
-                d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-              />
-            </svg>
-            <span className="font-medium">새 일기 작성하기</span>
-          </div>
-        </button>
-      )}
-
-      {/* New Entry Form */}
-      {showNewEntryForm && (
-        <div className="mb-6">
-          <NewEntryForm
-            date={formatDate(new Date())}
-            onSubmit={handleAddEntry}
-            onCancel={() => setShowNewEntryForm(false)}
-          />
-        </div>
-      )}
-
       {/* Entries List */}
-      <div className="flex-1 overflow-y-auto pb-6">
+      <div className="flex-1 overflow-y-auto pb-20 md:pb-6">
         {sortedEntries.length > 0 ? (
-          <div className="space-y-4">
+          <div className="space-y-4 pb-4">
             {sortedEntries.map((entry) => (
               <DiaryCard
                 key={entry.id}
@@ -105,6 +55,7 @@ const AllEntriesView: React.FC<AllEntriesViewProps> = ({
                 currentUserId={currentUserId}
                 onReaction={onReaction}
                 showDate={true}
+                showComments={false}
               />
             ))}
           </div>
@@ -123,8 +74,7 @@ const AllEntriesView: React.FC<AllEntriesViewProps> = ({
                 d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
               />
             </svg>
-            <p className="text-white/50 text-lg mb-2">아직 작성된 일기가 없어요</p>
-            <p className="text-white/40 text-sm">첫 번째 일기를 작성해보세요!</p>
+            <p className="text-gray-400 text-lg">아직 작성된 압정이 없어요</p>
           </div>
         )}
       </div>

@@ -3,18 +3,38 @@
   <head>
     <meta charset="utf-8" />
     <link rel="icon" href="%PUBLIC_URL%/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="theme-color" content="#667eea" />
     <meta
       name="description"
-      content="Tack Club - 우리만의 공유 일기장"
+      content="압정 클럽 - 행복을 모으자 악"
     />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="압정 클럽 - 행복을 모으자 악" />
+    <meta property="og:description" content="우리만의 행복한 순간을 기록하고 공유하는 압정 클럽" />
+    <meta property="og:image" content="%PUBLIC_URL%/og-image.png" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="압정 클럽 - 행복을 모으자 악" />
+    <meta name="twitter:description" content="우리만의 행복한 순간을 기록하고 공유하는 압정 클럽" />
+    <meta name="twitter:image" content="%PUBLIC_URL%/og-image.png" />
+
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <title>Tack Club - 공유 일기장</title>
+
+    <!-- OneSignal SDK -->
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+    </script>
+
+    <title>압정 클럽</title>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
