@@ -85,7 +85,9 @@ const sendNotifications = async (notWrittenAuthors, timeOfDay) => {
           ],
           headings: { en: message.heading },
           contents: { en: message.content },
-          url: "https://tack-club.web.app"
+          url: "https://tack-club.web.app",
+          ttl: 3600, // 알림 유효 시간 1시간
+          priority: 10 // 높은 우선순위
         },
         {
           headers: {
